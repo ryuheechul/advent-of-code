@@ -7,3 +7,6 @@ about diving into this ecosystem until some time this year.
 
 So I thought it would be best to pick Python as the main language for the AoC
 2023 to see how comfortable I am with this lang.
+
+Some of my learnings are shared at
+https://github.com/ryuheechul/reflect/blob/main/org/lang/python.org.

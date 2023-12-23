@@ -24,7 +24,7 @@ target:
 - and it will be splitted to multiple targets for efficiency on each mapping
 """
 
-from typing import Iterable
+from typing import Callable, Iterable
 
 
 def parse(first_line: str, lines: Iterable[str]):
@@ -79,7 +79,12 @@ def parse(first_line: str, lines: Iterable[str]):
     return seed_targets, stages
 
 
-def calc_row_adapter(diff: int, source: range, target: range, bag: list[range]):
+def calc_row_adapter(
+    diff: int,
+    source: range,
+    target: range,
+    submit_mapped: Callable[[list[range]], None],
+):
     if __package__ is None or __package__ == "":
         from calc import calc_row
     else:
@@ -87,7 +92,7 @@ def calc_row_adapter(diff: int, source: range, target: range, bag: list[range]):
 
     mapped, to_be_mapped = calc_row(diff, source, target)
 
-    bag.extend(mapped)
+    submit_mapped(mapped)
     return to_be_mapped
 
 
@@ -98,6 +103,9 @@ def calc_stage(stage: list[tuple[int, range]], target: range):
     targets: list[range] = [target]
     mapped: list[range] = []
 
+    def add_to_mapped(to_be_added: list[range]):
+        mapped.extend(to_be_added)
+
     # iterate over each row in a stage
     for diff, source in stage:
         # `mapped` will collect the ones completely mapped on each stage
@@ -106,7 +114,7 @@ def calc_stage(stage: list[tuple[int, range]], target: range):
         targets = [
             next_target
             for target in targets
-            for next_target in calc_row_adapter(diff, source, target, mapped)
+            for next_target in calc_row_adapter(diff, source, target, add_to_mapped)
         ]
 
         # early break when there is nothing left to try the rest of rows
@@ -120,16 +128,16 @@ def calc_stage(stage: list[tuple[int, range]], target: range):
     return mapped
 
 
-def calc_target(stages: list[list[tuple[int, range]]], target_range: range):
+def calc_target(stages: list[list[tuple[int, range]]], target: range):
     """
     calc_target is concerned only for each target range
     """
 
-    targets: list[range] = [target_range]
+    targets: list[range] = [target]
 
     for stage in stages:
         # https://realpython.com/python-flatten-list/#using-a-comprehension-to-flatten-a-list-of-lists
-        targets = [item for target in targets for item in calc_stage(stage, target)]
+        targets = [item for t in targets for item in calc_stage(stage, t)]
 
     return min(in_item.start for in_item in targets)
 

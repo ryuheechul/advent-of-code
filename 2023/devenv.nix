@@ -19,9 +19,10 @@
   # languages.nix.enable = true;
   languages.python = {
     enable = true;
+    # not sure how much faster but with pypy but glad this is possible so easily!
+    package = pkgs.pypy310;
     venv = {
       enable = true;
-      requirements = ./python/requirements.txt;
     };
   };
 

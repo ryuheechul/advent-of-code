@@ -10,3 +10,7 @@ So I thought it would be best to pick Python as the main language for the AoC
 
 Some of my learnings are shared at
 https://github.com/ryuheechul/reflect/blob/main/org/lang/python.org.
+
+## Using Template
+
+`./bin/gen-next.sh` will produce the next day from `./template`

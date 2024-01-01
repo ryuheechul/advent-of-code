@@ -34,23 +34,24 @@ def expand_calculator(galaxy_map: list[list[str]]):
     def compensate(coords: tuple[int, int]):
         x, y = coords
 
-        # e.g. empty cols: [3, 6]
-        # 0 1 2 3 1000004 1000005 1000006 2000007 ...
-
-        # x: 2 = 2
-        # x: 3 = 3
-        # x: 4 = 1000004
-        # x: 6 = 1000006
-        # x: 7 = 2000007
-
-        # `- 1` because there is difference between adding 1 duplication (part 1) and 1000_000 duplication
-        expansion_rate = 1000_000 - 1
+        expansion_rate = 1000_000
         # use below to debug
-        # expansion_rate = 100 - 1
-        # expansion_rate = 10 - 1
+        # expansion_rate = 100
+        # expansion_rate = 10
+        # expansion_rate = 2 # this is the part 1
 
-        x_prime = len([col for col in cols if x > col]) * expansion_rate + x
-        y_prime = len([row for row in rows if y > row]) * expansion_rate + y
+        # e.g. empty cols: [3, 6]
+        # x: 0 1 2 3    4       5       6       7    ...
+        # -:---------------------------------------------
+        #  : 0 1 2   1000003 1000004         2000005 ...
+
+        # `- 1` because the empty space itself already has 1 space
+        expansion_compensation = expansion_rate - 1
+        # as you see from the above (in cast part 1), when you duplicate the although the rate is 2,
+        # you don't add 2 space, just 1 since 1 was already there
+
+        x_prime = len([col for col in cols if x > col]) * expansion_compensation + x
+        y_prime = len([row for row in rows if y > row]) * expansion_compensation + y
 
         return (x_prime, y_prime)
 

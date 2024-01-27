@@ -23,6 +23,7 @@
     package = pkgs.pypy310;
     venv = {
       enable = true;
+      requirements = ./python/requirements.txt;
     };
   };
 

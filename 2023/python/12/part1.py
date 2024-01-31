@@ -27,7 +27,7 @@ def permutate_conditions(bar: list[str]):
             for perm_list in [permutate_conditions(first), permutate_conditions(second)]
             for perm in perm_list
         ]
-    except:
+    except Exception:
         return [bar]
 
 

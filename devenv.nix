@@ -22,7 +22,7 @@
 
   # https://devenv.sh/pre-commit-hooks/
   pre-commit.hooks = {
-    black.enable = true;
+    ruff.enable = true;
   };
 
   # https://devenv.sh/processes/

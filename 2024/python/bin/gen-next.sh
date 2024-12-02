@@ -4,7 +4,7 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-if env ls -1 | grep -E -o '[[:digit:]]+'; then
+if env ls -1 | grep -E -o '[[:digit:]]+' >/dev/null; then
   # assuming it's sorted
   next="$(env ls -1 | grep -E -o '[[:digit:]]+' | tail -1 | xargs expr 1 '+')"
 else

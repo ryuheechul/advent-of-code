@@ -18,7 +18,7 @@
   languages.python = {
     enable = true;
     # not sure how much faster but with pypy but glad this is possible so easily!
-    package = pkgs.pypy310;
+    package = pkgs.pypy310; # see https://doc.pypy.org/en/latest/config/commandline.html?highlight=withmod%20_multiprocessing for options to enable
     venv = {
       enable = true;
       requirements = ./python/requirements.txt;
@@ -35,6 +35,8 @@
   scripts.hello.exec = ''
     echo hello from $GREET
   '';
+  scripts.run-part-1.exec = "pypy -m part1 --withmod-_multiprocessing";
+  scripts.run-part-2.exec = "pypy -m part2 --withmod-_multiprocessing";
 
   enterShell = ''
     hello
